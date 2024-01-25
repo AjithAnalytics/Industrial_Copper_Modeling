@@ -97,7 +97,6 @@ if selected == "PREDICT SELLING PRICE":
     prediction = st.button('**Predict**')
 
     day_difference = item_date - delivery_date
-
     quantity_tons_log = np.log1p(quantity_tons)
     thickness_log = np.log1p(thickness)
     
@@ -106,6 +105,50 @@ if selected == "PREDICT SELLING PRICE":
             delivery_date.day, delivery_date.month, delivery_date.year]]
     
     if prediction:
-        st.markdown(f"### :blue[Selling Price :] :green[$ {int(round(predict_price(predict_data)))}]")
+        selling_price = predict_price(predict_data)
+        rounded_selling_price = np.round(selling_price)
 
-        # st.markdown(f"### :bule[Selling Price :] :green[$ {round(predict_price( predict_data))}]")
+        st.markdown(f"### :blue[Selling Price :] :green[$ {rounded_selling_price}]")
+
+if selected == "PREDICT STATUS":
+    col4,col5,col6 = st.columns([0.5,0.1,0.5])
+
+
+    with col4:
+        item_date1 = st.date_input(" Select the **Item Date**", date(2020, 7,2), min_value= date(2020, 7,2), max_value= date(2021, 4,1))
+
+        quantity_tons1 = st.number_input(' Enter the **Quantity Tons**', min_value = 1e-05, max_value= 1000000000.0, value = 5874.904 )
+
+        customer1 = st.number_input(' Enter the **Customer**', min_value = 12458.0, max_value= 2147483647.0, value = 30512207.0 )
+
+        item_type1 =  st.selectbox(' Select The **Item Type**', item_type_value)
+
+        application1 = st.selectbox(' Select The **Application**', application_code)
+
+        country1 = st.selectbox(' Select the **Country**', country_code)
+    
+    with col6:
+
+        thickness1 = st.number_input(' Enter the **Thickness**', min_value = 0.18, max_value= 2500.0, value = 2.56482 )
+
+        width1 = st.number_input(' Enter the **Width**', min_value = 700.0, max_value= 1980.0, value = 1297.0455 )
+
+        product_ref1 = st.number_input(' Enter the **Product Reference**', min_value = 611728.0, max_value= 1722207590.0, value = 473967910.72 )
+
+        selling_price = st.number_input(' Enter the **Selling Price**',  max_value= 100001015.0, value = 1918.06 )
+
+        delivery_date1 = st.date_input(" Select the **Delivery Date**", date(2019, 4,1), min_value= date(2019, 4,1), max_value= date(2022, 1,1))
+
+    st.markdown('Click below button to predict the **Status**')
+    prediction1 = st.button('**Predict The Status**')
+
+    day_difference1 = item_date1 - delivery_date1
+    quantity_tons_log1 = np.log1p(quantity_tons1)
+    thickness_log1 = np.log1p(thickness1)
+    selling_price_log = np.log1p(selling_price)
+    predict_data1 =[[quantity_tons1, customer1, item_type_value[item_type1], application1, country1, thickness1, width1, product_ref1, selling_price,
+            selling_price_log,quantity_tons_log1, thickness_log1 , day_difference1.days, item_date1.day, item_date1.month, 
+            item_date1.year, delivery_date1.day, delivery_date1.month, delivery_date1.year]]
+    
+    if prediction1:
+        st.markdown(f"### :bule[Status :] :green[ { predict_status(predict_data1)}]")
